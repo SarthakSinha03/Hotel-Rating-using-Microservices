@@ -1,0 +1,39 @@
+#
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:1234/eureka
+
+      
+spring:
+  application:
+    name: API-GATEWAY
+  config:
+    import: optional:configserver:http://localhost:8084
+  cloud:
+    gateway:
+      mvc:
+        routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+           - Path=/users/**
+          
+        - id: RATING-SERVICE
+          uri: lb://RATING-SERVICE
+          predicates:
+           - Path=/ratings/**
+        
+        - id: HOTEL-SERVICE
+          uri: lb://HOTEL-SERVICE
+          predicates:
+           - Path=/hotels/**
+              
+    
+server:
+  port: 8083
+  
+
+    
