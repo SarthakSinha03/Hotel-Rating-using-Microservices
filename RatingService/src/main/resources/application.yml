@@ -1,0 +1,23 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: microservices
+  application:
+    name: RATING-SERVICE
+  config:
+        import: optional:configserver:http://localhost:8084
+
+
+
+#eureka:
+#  instance:
+#    hostname: localhost   
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:1234/eureka
+#      
+      
+server:
+  port: 9082

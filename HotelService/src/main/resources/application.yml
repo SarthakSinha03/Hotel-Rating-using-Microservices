@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: SARTHAK
+    url: jdbc:mysql://localhost:3306/microservices
+    password: Sinha@9818
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  application:
+    name: HOTEL-SERVICE
+  config:
+    import: optional:configserver:http://localhost:8084
+
+server:
+  port: 8081
+#  
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:1234/eureka
+#      
+#      
+#    
+#    
