@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,13 +28,14 @@ public class UserController {
 	UserServiceImpl service;
 	
 	
-	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping
 	public ResponseEntity<User> createUser(@RequestBody User u){
 		User u1=service.saveUser(u);
 		return ResponseEntity.status(HttpStatus.CREATED).body(u1);		
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}")
 	@CircuitBreaker(name="Rating-Hotel-Breaker",fallbackMethod = "fallback1")
 	@RateLimiter(name="RateLimiter", fallbackMethod = "ratelimitfallback1")
@@ -42,7 +44,7 @@ public class UserController {
 		return ResponseEntity.ok(r);  
 	}
 	
-	
+	@PreAuthorize("hasAuthority('SCOPE_internal') || hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}")
 	@CircuitBreaker(name="Rating-Hotel-Breaker",fallbackMethod = "fallback")
 	@RateLimiter(name="RateLimiter", fallbackMethod = "ratelimitfallback")
@@ -52,7 +54,7 @@ public class UserController {
 		return ResponseEntity.ok(u1);
 	}
 	
-	
+	@PreAuthorize("hasAuthority('SCOPE_internal') || hasRole('ROLE_ADMIN')")
 	@GetMapping
 	@CircuitBreaker(name="Rating-Hotel-Breaker2",fallbackMethod = "fallback2")
 	@RateLimiter(name="RateLimiter", fallbackMethod = "ratelimitfallback2")
@@ -61,7 +63,9 @@ public class UserController {
 		return ResponseEntity.ok(l);
 	}
 	
-	@PutMapping("/{userId}")
+	
+	@PreAuthorize("hasAuthority('SCOPE_internal') || hasRole('ROLE_ADMIN')")
+	@PutMapping("/{id}")
 	@CircuitBreaker(name="Rating-Hotel-Breaker",fallbackMethod = "fallback1")
 	@RateLimiter(name="RateLimiter", fallbackMethod = "ratelimitfallback1")
 	public ResponseEntity<Rating> updateRating(@RequestBody Rating r, @PathVariable int id){
@@ -78,7 +82,7 @@ public class UserController {
 		return ResponseEntity.notFound().eTag("Ratings not found for UserId: "+u.getUserId()+" with RateId: "+r.getRateId()).build();
 	}
 	
-	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("/{id}")
 	@CircuitBreaker(name="Rating-Hotel-Breaker",fallbackMethod = "fallback")
 	@RateLimiter(name="RateLimiter", fallbackMethod = "ratelimitfallback")
@@ -86,7 +90,7 @@ public class UserController {
 		return ResponseEntity.ok(service.delete(id));
 	}
 	
-	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("/rating/{id}")
 	@CircuitBreaker(name="Rating-Hotel-Breaker",fallbackMethod = "fallback1")
 	@RateLimiter(name="RateLimiter", fallbackMethod = "ratelimitfallback1")
@@ -95,6 +99,7 @@ public class UserController {
 	}
 	
 	public ResponseEntity<User> fallback(int id, Exception e){
+		e.printStackTrace();
 		User u1=new User();
 		u1.setName("Dummy");
 		u1.setEmail("Dummy@gmail.com");
@@ -135,6 +140,7 @@ public class UserController {
 	}
 	
 	public ResponseEntity<User> ratelimitfallback(int id, Exception e){
+		e.printStackTrace();
 		User u1=new User();
 		u1.setName("Dummy");
 		u1.setEmail("Dummy@gmail.com");

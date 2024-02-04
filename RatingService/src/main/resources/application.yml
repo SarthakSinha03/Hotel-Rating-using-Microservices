@@ -21,3 +21,16 @@ spring:
       
 server:
   port: 9082
+  
+  
+
+okta:
+  oauth2:
+    issuer: https://dev-25271320.okta.com/oauth2/default 
+    audience: api://default
+    
+    
+    
+    
+    
+    

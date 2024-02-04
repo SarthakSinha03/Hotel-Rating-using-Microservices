@@ -1,10 +1,9 @@
-#
-#eureka:
-#  instance:
-#    prefer-ip-address: true
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:1234/eureka
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:1234/eureka
 
       
 spring:
@@ -14,7 +13,6 @@ spring:
     import: optional:configserver:http://localhost:8084
   cloud:
     gateway:
-      mvc:
         routes:
         - id: USER-SERVICE
           uri: lb://USER-SERVICE
@@ -35,5 +33,17 @@ spring:
 server:
   port: 8083
   
+okta:
+  oauth2:
+    issuer: https://dev-25271320.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oaexjosqkFXOjwVG5d7
+    client-secret: fnzjqT1CYJfWM2uwdzAoIKcgwWV24R5lsfzOjuAvU-t4tLJHeU0UTjxbL7S8R11w
+    scopes: openid, profile, email, offline_access, internal
+    
+    
+    
+      
+   
 
     
