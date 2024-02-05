@@ -35,7 +35,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(u1);		
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('SCOPE_internal') || hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}")
 	@CircuitBreaker(name="Rating-Hotel-Breaker",fallbackMethod = "fallback1")
 	@RateLimiter(name="RateLimiter", fallbackMethod = "ratelimitfallback1")
