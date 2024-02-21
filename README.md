@@ -1,4 +1,4 @@
-<h3>Hotel Rating System Project by using Microservices Architechture on Spring Boot</h3>
+<h3>Hotel Rating System Project by using Microservices Architecture on Spring Boot</h3>
 <p> In this project I have developed a Hotel Rating System on Spring Boot in which the User(client) can get information about different hotels. User can see the feedbacks given by other users for any hotel and can also post, update or delete his/her previous feedback. I have used microservice architecture and have created all the services as microservice which are interacting with each other with the help of REST APIs.</p>
 <br>
 <h3> Backend Working Process</h3>
